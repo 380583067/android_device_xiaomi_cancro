@@ -47,6 +47,8 @@
 
 #permissions for CSVT
 /dev/smd11                0660   radio      radio
+/dev/urandom              0666   root       root
+/dev/random               0666   root       root
 
 /dev/radio0               0640   system     system
 /dev/rfcomm0              0660   bluetooth  bluetooth

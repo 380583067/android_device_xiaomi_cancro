@@ -11,6 +11,7 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 
 # Audio
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/audio/audio_platform_info.xml:system/vendor/etc/audio_platform_info.xml \
     $(DEVICE_PATH)/audio/diracmobile.config:system/vendor/etc/diracmobile.config \
     $(DEVICE_PATH)/audio/diracmobile_4.config:system/vendor/etc/diracmobile_4.config \
     $(DEVICE_PATH)/audio/mixer_paths.xml:system/vendor/etc/mixer_paths.xml \
