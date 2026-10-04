@@ -21,6 +21,7 @@ cc_binary {
     vintf_fragments: ["android.hardware.ir@1.0-service.cancro.xml"],
     srcs: ["service.cpp", "ConsumerIr.cpp"],
     shared_libs: [
+        "liblog",
         "libbase",
         "libhardware",
         "libhidlbase",

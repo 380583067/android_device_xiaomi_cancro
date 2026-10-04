@@ -71,11 +71,31 @@ static int read_file2(const char *fname, char *data, int max_size)
 void property_override(char const prop[], char const value[], bool add = true)
 {
     auto pi = (prop_info *) __system_property_find(prop);
+    const size_t value_length = strlen(value);
 
     if (pi != nullptr) {
-        __system_property_update(pi, value, strlen(value));
+        // Legacy update writes the inline value buffer. For a long read-only
+        // property that buffer instead stores metadata, including its offset.
+        // Overwriting it leaves the long flag set and crashes later readers.
+        bool is_long = false;
+        __system_property_read_callback(
+            pi,
+            [](void* cookie, const char*, const char* current_value, uint32_t) {
+                *static_cast<bool*>(cookie) = strlen(current_value) >= PROP_VALUE_MAX;
+            },
+            &is_long);
+        if (is_long || value_length >= PROP_VALUE_MAX) {
+            LOG(WARNING) << "Keeping existing property " << prop
+                         << ": legacy override cannot update long values";
+            return;
+        }
+        if (__system_property_update(pi, value, value_length) != 0) {
+            LOG(ERROR) << "Failed to override property " << prop;
+        }
     } else if (add) {
-        __system_property_add(prop, strlen(prop), value, strlen(value));
+        if (__system_property_add(prop, strlen(prop), value, value_length) != 0) {
+            LOG(ERROR) << "Failed to add property " << prop;
+        }
     }
 }
 

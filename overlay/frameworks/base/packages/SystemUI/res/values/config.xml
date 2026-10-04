@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_legacyTorchSysfsPath" translatable="false">/sys/class/leds/flashlight/brightness</string>
+    <string name="config_legacyTorchCameraId" translatable="false">0</string>
+    <!-- The legacy flash driver accepts torch register values from 1 to 127. -->
+    <integer name="config_legacyTorchBrightness">64</integer>
+</resources>
