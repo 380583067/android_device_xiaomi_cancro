@@ -1,0 +1,2 @@
+# Only the two Broadcom NFC patch files are readable by the NFC app.
+type cancro_nfc_firmware_file, file_type, vendor_file_type;

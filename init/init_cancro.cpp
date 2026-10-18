@@ -106,6 +106,23 @@ void property_override_triple(char const product_prop[], char const system_prop[
     property_override(vendor_prop, value);
 }
 
+static void property_override_model(const char *model)
+{
+    const char *model_props[] = {
+        "ro.product.model",
+        "ro.product.system.model",
+        "ro.product.system_ext.model",
+        "ro.product.vendor.model",
+        "ro.product.odm.model",
+        "ro.product.bootimage.model",
+        "ro.product.vendor_dlkm.model",
+        "ro.vendor.product.model",
+    };
+    for (const char *prop : model_props) {
+        property_override(prop, model);
+    }
+}
+
 void init_alarm_boot_properties()
 {
     char const *alarm_file = "/proc/sys/kernel/boot_reason";
@@ -151,21 +168,22 @@ void vendor_load_properties()
     property_override("ro.build.description", "cancro-user 6.0.1 MMB29M V9.5.7.0.MXDMIFA release-keys");
 
     switch (raw_id) {
+        case 1977:
         case 1978:
-            property_override_triple("ro.product.model", "ro.product.system.model", "ro.vendor.product.model", "MI 3W");
+            property_override_model("MI 3W");
             property_override("ro.nfc.port", "I2C");
             break;
         case 1974:
-            property_override_triple("ro.product.model", "ro.product.system.model", "ro.vendor.product.model", "MI 4");
+            property_override_model("MI 4");
             break;
         case 1972:
-            property_override_triple("ro.product.model", "ro.product.system.model", "ro.vendor.product.model", "MI 4LTE");
+            property_override_model("MI 4LTE");
             property_override("ro.telephony.default_network", "8");
             property_override("telephony.lteOnGSMDevice", "1");
             break;
         default:
             // Other unsupported variants
-            property_override_triple("ro.product.model", "ro.product.system.model", "ro.vendor.product.model", "Unsupported MI Cancro");
+            property_override_model("Unsupported MI Cancro");
             break;
     }
 

@@ -1,0 +1,6 @@
+# This device uses a passthrough HAL in the NFC app, rather than hal_nfc_default.
+allow nfc nfc_device:chr_file rw_file_perms;
+
+# Traverse the firmware directory, then read only this controller's patches.
+allow nfc firmware_file:dir search;
+allow nfc cancro_nfc_firmware_file:file r_file_perms;

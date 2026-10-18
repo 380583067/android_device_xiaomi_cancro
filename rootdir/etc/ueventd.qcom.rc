@@ -176,6 +176,7 @@
 /dev/wcnss_wlan           0660   system     system
 /dev/wcnss_ctrl           0660   system     system
 #nfc permissions
+/dev/bcm2079x             0600    nfc         nfc
 /dev/nfc-nci              0660    nfc         nfc
 
 # UIO devices

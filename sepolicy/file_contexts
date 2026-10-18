@@ -1,0 +1,7 @@
+# Broadcom's passthrough NFC HAL and its HIDL dependency run inside NfcNci.
+/(vendor|system/vendor)/lib(64)?/hw/android\.hardware\.nfc@1\.0-impl-bcm\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/nfc_nci\.bcm2079x\.default\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/android\.hardware\.nfc@1\.0\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/firmware/bcm2079x-b5(_pre)?_firmware\.ncd u:object_r:cancro_nfc_firmware_file:s0
+
+/dev/bcm2079x u:object_r:nfc_device:s0

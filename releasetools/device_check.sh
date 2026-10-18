@@ -55,8 +55,8 @@ fi
 
 umount /system_root
 
-if [ $RAW_ID == 1978 ] || [ $RAW_ID == 1972 ] || [ $RAW_ID == 1974 ]; then
-    # Supported device (Mi3w - 1978 or Mi4 - 1972, 1974)
+if [ "$RAW_ID" = 1977 ] || [ "$RAW_ID" = 1978 ] || [ "$RAW_ID" = 1972 ] || [ "$RAW_ID" = 1974 ]; then
+    # Supported device (Mi3w - 1977, 1978 or Mi4 - 1972, 1974)
     exit 0
 else
     # Unsupported device
