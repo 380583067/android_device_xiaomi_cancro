@@ -1,0 +1,8 @@
+on post-fs-data
+    # The legacy daemon opens this log before binding its control socket.
+    # It starts as root without DAC override and later drops to nobody:net_raw.
+    mkdir /data/misc/sensors 0775 system system
+    mkdir /data/misc/sensors/debug 0771 nobody nobody
+    write /data/misc/sensors/debug/error_log ""
+    chown root net_raw /data/misc/sensors/debug/error_log
+    chmod 0660 /data/misc/sensors/debug/error_log

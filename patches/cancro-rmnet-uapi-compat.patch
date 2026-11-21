@@ -1,0 +1,15 @@
+diff --git a/rmnetctl/src/librmnetctl.c b/rmnetctl/src/librmnetctl.c
+index af8386f..d409c70 100644
+--- a/rmnetctl/src/librmnetctl.c
++++ b/rmnetctl/src/librmnetctl.c
+@@ -55,6 +55,10 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <asm/types.h>
+ #ifdef USE_OLD_RMNET_DATA
+ #include <linux/rmnet_data.h>
++#ifndef RMNET_NETLINK_NEW_VND_WITH_NAME
++/* Older kernels support VND naming through the prefix netlink operation. */
++#define RMNET_NETLINK_NEW_VND_WITH_NAME RMNET_NETLINK_NEW_VND_WITH_PREFIX
++#endif
+ #endif
+ #include "librmnetctl_hndl.h"
+ #include "librmnetctl.h"

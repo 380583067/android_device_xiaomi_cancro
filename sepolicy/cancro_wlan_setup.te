@@ -1,0 +1,14 @@
+type cancro_wlan_setup, domain;
+type cancro_wlan_setup_exec, exec_type, vendor_file_type, file_type;
+type cancro_wlan_module_file, vendor_file_type, file_type;
+
+init_daemon_domain(cancro_wlan_setup)
+
+allow cancro_wlan_setup { vendor_shell_exec vendor_toolbox_exec }:file rx_file_perms;
+allow cancro_wlan_setup self:global_capability_class_set { sys_module chown };
+allow cancro_wlan_setup kernel:key search;
+allow cancro_wlan_setup cancro_wlan_module_file:file r_file_perms;
+allow cancro_wlan_setup cancro_wlan_module_file:system module_load;
+allow cancro_wlan_setup sysfs:dir search;
+allow cancro_wlan_setup sysfs_wlan_fwpath:file { getattr setattr };
+write_logd(cancro_wlan_setup)

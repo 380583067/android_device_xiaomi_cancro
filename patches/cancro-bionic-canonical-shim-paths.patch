@@ -1,0 +1,17 @@
+diff --git a/linker/linker.cpp b/linker/linker.cpp
+index 8081ee0..760a72a 100644
+--- a/linker/linker.cpp
++++ b/linker/linker.cpp
+@@ -714,6 +714,12 @@ void parse_LD_SHIM_LIBS(const char* path) {
+   if (path != nullptr) {
+     for (const auto& pair : android::base::Split(path, ":")) {
+       std::vector<std::string> pieces = android::base::Split(pair, "|");
++      // A canonical target marked "|exact" is matched against the path of the
++      // opened ELF. It does not need a filesystem probe in every process.
++      if (pieces.size() == 3 && pieces[2] == "exact") {
++        g_ld_all_shim_libs.emplace_back(pieces[0], pieces[1]);
++        continue;
++      }
+       if (pieces.size() != 2) continue;
+       // If the path can be resolved, resolve it
+       char buf[PATH_MAX];

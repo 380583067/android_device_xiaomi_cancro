@@ -1,0 +1,36 @@
+diff --git a/camera/QCamera2/HAL/Android.mk b/camera/QCamera2/HAL/Android.mk
+index 97f5a18..6622cbd 100644
+--- a/camera/QCamera2/HAL/Android.mk
++++ b/camera/QCamera2/HAL/Android.mk
+@@ -58,6 +58,7 @@ LOCAL_SHARED_LIBRARIES += android.hardware.graphics.bufferqueue@1.0
+ 
+ LOCAL_MODULE_RELATIVE_PATH := hw
+ LOCAL_MODULE := camera.$(TARGET_BOARD_PLATFORM)
++LOCAL_CFLAGS += -D__user=
+ # Legacy non-Treble camera stack depends on private platform libraries.
+ # Build and install in system alongside its platform dependencies.
+ LOCAL_MODULE_TAGS := optional
+diff --git a/camera/QCamera2/stack/mm-camera-interface/Android.mk b/camera/QCamera2/stack/mm-camera-interface/Android.mk
+index 7ccb586..b8b840a 100644
+--- a/camera/QCamera2/stack/mm-camera-interface/Android.mk
++++ b/camera/QCamera2/stack/mm-camera-interface/Android.mk
+@@ -16,6 +16,7 @@ ifeq ($(call is-board-platform-in-list, msm8974 msm8226 msm8610),true)
+ endif
+ 
+ LOCAL_CFLAGS += -D_ANDROID_
++LOCAL_CFLAGS += -D__user=
+ 
+ LOCAL_C_INCLUDES := \
+     $(LOCAL_PATH)/inc \
+diff --git a/camera/QCamera2/stack/mm-jpeg-interface/Android.mk b/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
+index 6cadb97..9362f40 100644
+--- a/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
++++ b/camera/QCamera2/stack/mm-jpeg-interface/Android.mk
+@@ -33,6 +33,7 @@ LOCAL_SRC_FILES := \
+     src/mm_jpegdec.c
+ 
+ LOCAL_MODULE := libmmjpeg_interface
++LOCAL_CFLAGS += -D__user=
+ LOCAL_SHARED_LIBRARIES := libdl libcutils liblog libqomx_core
+ LOCAL_MODULE_TAGS := optional
+ # Legacy non-Treble camera stack depends on private platform libraries.

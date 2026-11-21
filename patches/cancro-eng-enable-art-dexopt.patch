@@ -1,0 +1,15 @@
+diff --git a/lineage_cancro.mk b/lineage_cancro.mk
+index 7419180..080826c 100644
+--- a/lineage_cancro.mk
++++ b/lineage_cancro.mk
+@@ -13,6 +13,10 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
++# Keep ART preoptimization and on-device dexopt enabled for cancro eng builds.
++# The default eng setting leaves SystemUI and other startup apps interpreted.
++OVERRIDE_DISABLE_DEXOPT_ALL := false
++
+ # Inherit from cancro device
+ $(call inherit-product, device/xiaomi/cancro/cancro.mk)
+ 

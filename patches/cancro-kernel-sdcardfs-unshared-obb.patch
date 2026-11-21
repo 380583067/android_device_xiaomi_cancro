@@ -1,0 +1,85 @@
+diff --git a/fs/sdcardfs/derived_perm.c b/fs/sdcardfs/derived_perm.c
+index 75beeff1..98197c59 100755
+--- a/fs/sdcardfs/derived_perm.c
++++ b/fs/sdcardfs/derived_perm.c
+@@ -351,7 +351,8 @@ int need_graft_path(struct dentry *dentry)
+ 	struct sdcardfs_sb_info *sbi = SDCARDFS_SB(dentry->d_sb);
+ 	struct qstr obb = QSTR_LITERAL("obb");
+ 
+-	if (parent_info->data->perm == PERM_ANDROID &&
++	if (!sbi->options.unshared_obb &&
++			parent_info->data->perm == PERM_ANDROID &&
+ 			qstr_case_eq(&dentry->d_name, &obb)) {
+ 
+ 		/* /Android/obb is the base obbpath of DERIVED_UNIFIED */
+diff --git a/fs/sdcardfs/main.c b/fs/sdcardfs/main.c
+index 89ca9219..c2373cd5 100755
+--- a/fs/sdcardfs/main.c
++++ b/fs/sdcardfs/main.c
+@@ -34,6 +34,7 @@ enum {
+ 	Opt_reserved_mb,
+ 	Opt_gid_derivation,
+ 	Opt_default_normal,
++	Opt_unshared_obb,
+ 	Opt_err,
+ };
+ 
+@@ -47,6 +48,7 @@ static const match_table_t sdcardfs_tokens = {
+ 	{Opt_multiuser, "multiuser"},
+ 	{Opt_gid_derivation, "derive_gid"},
+ 	{Opt_default_normal, "default_normal"},
++	{Opt_unshared_obb, "unshared_obb"},
+ 	{Opt_reserved_mb, "reserved_mb=%u"},
+ 	{Opt_err, NULL}
+ };
+@@ -70,6 +72,7 @@ static int parse_options(struct super_block *sb, char *options, int silent,
+ 	opts->reserved_mb = 0;
+ 	/* by default, gid derivation is off */
+ 	opts->gid_derivation = false;
++	opts->unshared_obb = false;
+ 	vfsopts->default_normal = false;
+ 
+ 	*debug = 0;
+@@ -128,6 +131,9 @@ static int parse_options(struct super_block *sb, char *options, int silent,
+ 		case Opt_default_normal:
+ 			vfsopts->default_normal = true;
+ 			break;
++		case Opt_unshared_obb:
++			opts->unshared_obb = true;
++			break;
+ 		/* unknown option */
+ 		default:
+ 			if (!silent)
+@@ -182,6 +188,7 @@ int parse_options_remount(struct super_block *sb, char *options, int silent,
+ 			vfsopts->mask = option;
+ 			break;
+ 		case Opt_default_normal:
++		case Opt_unshared_obb:
+ 		case Opt_multiuser:
+ 		case Opt_userid:
+ 		case Opt_fsuid:
+diff --git a/fs/sdcardfs/sdcardfs.h b/fs/sdcardfs/sdcardfs.h
+index 891f690a..01397ed9 100755
+--- a/fs/sdcardfs/sdcardfs.h
++++ b/fs/sdcardfs/sdcardfs.h
+@@ -219,6 +219,7 @@ struct sdcardfs_mount_options {
+ 	userid_t fs_user_id;
+ 	bool multiuser;
+ 	bool gid_derivation;
++	bool unshared_obb;
+ 	unsigned int reserved_mb;
+ };
+ 
+diff --git a/fs/sdcardfs/super.c b/fs/sdcardfs/super.c
+index a28b40f5..c561a728 100755
+--- a/fs/sdcardfs/super.c
++++ b/fs/sdcardfs/super.c
+@@ -306,6 +306,8 @@ static int sdcardfs_show_options(struct vfsmount *mnt, struct seq_file *m,
+ 		seq_puts(m, ",derive_gid");
+ 	if (vfsopts->default_normal)
+ 		seq_puts(m, ",default_normal");
++	if (opts->unshared_obb)
++		seq_puts(m, ",unshared_obb");
+ 	if (opts->reserved_mb != 0)
+ 		seq_printf(m, ",reserved=%uMB", opts->reserved_mb);
+ 

@@ -1,0 +1,4 @@
+runtime_resource_overlay {
+    name: "CancroNetworkStackOverlay",
+    product_specific: true,
+}

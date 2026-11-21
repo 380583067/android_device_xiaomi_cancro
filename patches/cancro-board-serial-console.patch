@@ -1,0 +1,8 @@
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -137,3 +137,3 @@
+-BOARD_KERNEL_CMDLINE := vmalloc=400M androidboot.hardware=qcom msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 androidboot.selinux=permissive log_buf_len=20M console=ttyHS0,115200
++BOARD_KERNEL_CMDLINE := vmalloc=400M androidboot.hardware=qcom msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 androidboot.selinux=permissive log_buf_len=20M console=ttyHSL0,115200n8 androidboot.console=ttyHSL0 ignore_loglevel
+ LZMA_RAMDISK_TARGETS               := boot,recovery
+ BOARD_KERNEL_SEPARATED_DT          := true

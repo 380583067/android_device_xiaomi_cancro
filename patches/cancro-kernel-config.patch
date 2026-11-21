@@ -1,0 +1,21 @@
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 4bacbf2..d0998cf 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -16,6 +16,9 @@
+ #
+ -include device/xiaomi/msm8974-common/BoardConfigCommon.mk
+ 
++TARGET_KERNEL_SOURCE := kernel/xiaomi/cancro
++TARGET_KERNEL_CONFIG := cyanogen_cancro_defconfig
++
+ DEVICE_PATH := device/xiaomi/cancro
+ 
+ # Audio
+@@ -52,5 +55,6 @@ TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_PATH)/init/init_cancro.cpp
+ BUILD_DATE_TIMEZONE := Asia/Shanghai
+ 
+ TARGET_KERNEL_ADDITIONAL_FLAGS += \
++    -j18 \
+     KBUILD_BUILD_TIMESTAMP="Sat Oct 10 10:10:10 CST 2026" \
+     KBUILD_BUILD_VERSION=1

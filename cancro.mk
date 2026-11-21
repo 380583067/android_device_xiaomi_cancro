@@ -6,8 +6,25 @@ $(call inherit-product, vendor/xiaomi/cancro/cancro-vendor.mk)
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 
+PRODUCT_PACKAGES += CancroNetworkStackOverlay
+
+# GNSS assistance data for the Android framework.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/gps_debug.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps_debug.conf
+
 # System properties
 -include $(DEVICE_PATH)/system_prop.mk
+
+# Enable MDP composition in the vendor composer.
+PRODUCT_VENDOR_PROPERTIES += vendor.hwc.mdpcomp.enable=true
+
+# Load the modular WLAN driver once WCNSS is ready during boot.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/rootdir/etc/init.cancro.wlan.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.cancro.wlan.rc \
+    $(DEVICE_PATH)/rootdir/etc/init.cancro.wlan.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.cancro.wlan.sh
+
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/rootdir/etc/init.cancro.sensors.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/init.cancro.sensors.rc
 
 # Audio
 PRODUCT_COPY_FILES += \

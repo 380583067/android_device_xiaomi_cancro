@@ -1,0 +1,11 @@
+--- a/drivers/staging/prima/CORE/SME/src/csr/csrUtil.c
++++ b/drivers/staging/prima/CORE/SME/src/csr/csrUtil.c
+@@ -3918,7 +3918,7 @@
+            return VOS_FALSE;
+        }
+        else if (!(*pFilterMFPEnabled) && *pFilterMFPCapable &&
+-                (apProfileMFPCapable == 1))
++                apProfileMFPCapable && apProfileMFPRequired)
+        {
+            VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO,
+            "we don't need PMF connection eventhough both parties are capable");

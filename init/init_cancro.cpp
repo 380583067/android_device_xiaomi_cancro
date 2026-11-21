@@ -41,7 +41,8 @@
 
 #define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
 
-#define RAW_ID_PATH     "/sys/devices/system/soc/soc0/raw_id"
+#define RAW_ID_PATH     "/sys/devices/soc0/raw_id"
+#define LEGACY_RAW_ID_PATH "/sys/devices/system/soc/soc0/raw_id"
 #define BUF_SIZE         64
 static char tmp[BUF_SIZE];
 
@@ -158,6 +159,8 @@ void vendor_load_properties()
 
     /* get raw ID */
     rc = read_file2(RAW_ID_PATH, tmp, sizeof(tmp));
+    if (!rc)
+        rc = read_file2(LEGACY_RAW_ID_PATH, tmp, sizeof(tmp));
     if (rc) {
         raw_id = strtoul(tmp, NULL, 0);
     }

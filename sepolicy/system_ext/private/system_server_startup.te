@@ -1,0 +1,3 @@
+# On cancro, ART falls back to ashmem for the dual-view JIT cache.
+# Only the startup domain creates the executable mapping before entering system_server.
+allow system_server_startup ashmem_libcutils_device:chr_file execute;

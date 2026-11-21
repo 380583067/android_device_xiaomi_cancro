@@ -36,6 +36,9 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <unistd.h>
 
 static pthread_mutex_t init_modules_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t init_sensors_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -471,6 +474,23 @@ static void lazy_init_modules() {
 
     // dlopen the module files and cache their module symbols in sub_hw_modules
     sub_hw_modules = new std::vector<hw_module_t *>();
+    // The vendor HAL queries the daemon while loading. On cold boot it can
+    // otherwise cache an empty sensor list before the daemon creates its socket.
+    const char* socket_path = "/dev/socket/sensor_ctl_socket";
+    const struct timespec retry_delay = {0, 100000000};
+    struct stat socket_stat;
+    bool socket_ready = false;
+    for (int attempt = 0; attempt < 300; ++attempt) {
+        if (stat(socket_path, &socket_stat) == 0 && S_ISSOCK(socket_stat.st_mode)
+                && access(socket_path, W_OK) == 0) {
+            socket_ready = true;
+            break;
+        }
+        nanosleep(&retry_delay, NULL);
+    }
+    if (!socket_ready) {
+        ALOGW("Sensor daemon socket did not become ready");
+    }
     dlerror(); // clear any old errors
     add_so_module("libsensors.msm8974.so");
     pthread_mutex_unlock(&init_modules_mutex);

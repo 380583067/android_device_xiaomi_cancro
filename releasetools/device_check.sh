@@ -16,7 +16,19 @@
 # limitations under the License.
 #
 
-RAW_ID=`cat /sys/devices/system/soc/soc0/raw_id`
+if [ -r /sys/devices/soc0/raw_id ]; then
+    RAW_ID=$(cat /sys/devices/soc0/raw_id)
+elif [ -r /sys/devices/system/soc/soc0/raw_id ]; then
+    RAW_ID=$(cat /sys/devices/system/soc/soc0/raw_id)
+else
+    echo "Unable to read device raw_id"
+    exit 1
+fi
+
+case "$RAW_ID" in
+    1972|1974|1977|1978) ;;
+    *) echo "Unsupported device raw_id: $RAW_ID"; exit 1 ;;
+esac
 
 echo "Mounting system"
 mkdir /system_root

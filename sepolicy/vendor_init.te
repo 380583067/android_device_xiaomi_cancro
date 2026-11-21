@@ -1,0 +1,2 @@
+# The legacy FM patch loader stores its calibration under /data/misc/fm.
+allow vendor_init fm_data_file:dir { create getattr setattr };

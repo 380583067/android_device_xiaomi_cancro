@@ -1,0 +1,29 @@
+diff --git a/cancro.mk b/cancro.mk
+--- a/cancro.mk
++++ b/cancro.mk
+@@ -7,6 +7,10 @@
+ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
+ 
+ PRODUCT_PACKAGES += CancroNetworkStackOverlay
++
++# GNSS assistance data for the Android framework.
++PRODUCT_COPY_FILES += \
++    $(DEVICE_PATH)/configs/gps_debug.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps_debug.conf
+ 
+ # System properties
+ -include $(DEVICE_PATH)/system_prop.mk
+diff --git a/sepolicy/file_contexts b/sepolicy/file_contexts
+--- a/sepolicy/file_contexts
++++ b/sepolicy/file_contexts
+@@ -5,3 +5,5 @@
+ /(vendor|system/vendor)/firmware/bcm2079x-b5(_pre)?_firmware\.ncd u:object_r:cancro_nfc_firmware_file:s0
+ 
+ /dev/bcm2079x u:object_r:nfc_device:s0
++
++/(vendor|system/vendor)/etc/gps_debug\.conf u:object_r:legacy_location_config_file:s0
+diff --git a/configs/gps_debug.conf b/configs/gps_debug.conf
+new file mode 100644
+--- /dev/null
++++ b/configs/gps_debug.conf
+@@ -0,0 +1 @@
++LONGTERM_PSDS_SERVER_1=https://xtrapath2.izatcloud.net/xtra2.bin

@@ -1,0 +1,2 @@
+# The Qualcomm vendor library requires wc_transport.stack_bdaddr during init.
+set_prop(hal_bluetooth_default, qcom_bluetooth_prop)

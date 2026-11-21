@@ -1,0 +1,9 @@
+on boot
+    start vendor.cancro-wlan-setup
+
+service vendor.cancro-wlan-setup /vendor/bin/init.cancro.wlan.sh
+    class main
+    user root
+    group root
+    disabled
+    oneshot

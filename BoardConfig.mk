@@ -16,6 +16,9 @@
 #
 -include device/xiaomi/msm8974-common/BoardConfigCommon.mk
 
+TARGET_KERNEL_SOURCE := kernel/xiaomi/cancro
+TARGET_KERNEL_CONFIG := cyanogen_cancro_defconfig
+
 DEVICE_PATH := device/xiaomi/cancro
 
 # Audio
@@ -27,6 +30,9 @@ TARGET_FM_LEGACY_PATCHLOADER := true
 
 # HIDL
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
+
+# Media
+TARGET_QCOM_VENC_REQUEST_AVC_SEQUENCE_HEADER := true
 
 # Partitions
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
@@ -41,6 +47,7 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
 
 # SELinux
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/system_ext/private
 
 # Vendor Init
 TARGET_INIT_VENDOR_LIB      := libinit_cancro
@@ -52,5 +59,6 @@ TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_PATH)/init/init_cancro.cpp
 BUILD_DATE_TIMEZONE := Asia/Shanghai
 
 TARGET_KERNEL_ADDITIONAL_FLAGS += \
+    -j13 \
     KBUILD_BUILD_TIMESTAMP="Sat Oct 10 10:10:10 CST 2026" \
     KBUILD_BUILD_VERSION=1

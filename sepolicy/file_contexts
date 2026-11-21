@@ -5,3 +5,7 @@
 /(vendor|system/vendor)/firmware/bcm2079x-b5(_pre)?_firmware\.ncd u:object_r:cancro_nfc_firmware_file:s0
 
 /dev/bcm2079x u:object_r:nfc_device:s0
+
+/(vendor|system/vendor)/etc/gps_debug\.conf u:object_r:legacy_location_config_file:s0
+/(vendor|system/vendor)/bin/init\.cancro\.wlan\.sh u:object_r:cancro_wlan_setup_exec:s0
+/(vendor|system/vendor)/lib/modules/wlan\.ko u:object_r:cancro_wlan_module_file:s0

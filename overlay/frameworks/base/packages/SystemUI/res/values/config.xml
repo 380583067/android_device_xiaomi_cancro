@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="config_legacyTorchSysfsPath" translatable="false">/sys/class/leds/flashlight/brightness</string>
-    <string name="config_legacyTorchCameraId" translatable="false">0</string>
-    <!-- The legacy flash driver accepts torch register values from 1 to 127. -->
-    <integer name="config_legacyTorchBrightness">64</integer>
+    <bool name="config_useLegacyCameraTorch">true</bool>
+    <!-- Limit recording load on the msm8974 encoder. -->
+    <integer name="config_screenRecorderMaxFramerate">24</integer>
+    <integer name="config_screenRecorderMaxLongEdge">1280</integer>
+    <!-- Avoid software video decoding immediately after saving a recording. -->
+    <bool name="config_screenRecorderShowThumbnail">false</bool>
 </resources>
